@@ -17,6 +17,7 @@ jobs:
       - run:
           name: run tests
           command: |
+            mkdir test-output
             npm run unit-tests
   pack:
     docker:
