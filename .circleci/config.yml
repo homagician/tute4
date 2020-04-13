@@ -34,7 +34,7 @@ jobs:
       - checkout
       - install_deps
       - run:
-          name: run integration tests
+          name: run tests
           command: | 
             mkdir -p test-output
             npm run integration-tests
