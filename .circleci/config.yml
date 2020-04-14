@@ -43,7 +43,21 @@ jobs:
       
       - store_test_results:
           path: test-output
-
+  sast:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - checkout
+      - run:
+          name: Install NodeJsScan
+          command: |
+            sudo apt update
+            sudo apt install python3-pip
+            pip3 install nodejsscan
+      - run:
+          name: Run NodeJsScan
+          command: |
+            nodejsscan -d ./
   pack:
     docker:
       - image: circleci/node:lts
@@ -59,6 +73,12 @@ workflows:
   build-and-packge:
     jobs:
       - ci-build
+      - integration-tests:
+          requires:
+            - ci-build
+      - sast:
+          requires:
+            - ci-build
       - pack:
           requires:
             - ci-build
